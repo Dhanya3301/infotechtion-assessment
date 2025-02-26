@@ -1,5 +1,5 @@
 import { ArrowUp, Check, ChevronDown, Frown, Search, XCircle } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import ProductCard, { ProductDataType } from "./ProductCard";
 import MaxWidthWrapper from "./MaxwidthWrapper";
 import axios from "axios";
@@ -12,7 +12,7 @@ const fetchCategories = async () => {
   return ["All", ...data];
 };
 
-const Products = ({ productsData }: { productsData: ProductDataType[] }) => {
+const Products = React.Memo(({ productsData }: { productsData: ProductDataType[] }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("All");
   const [query, setQuery] = useState("");
@@ -148,6 +148,6 @@ const Products = ({ productsData }: { productsData: ProductDataType[] }) => {
       </MaxWidthWrapper>
     </div>
   );
-};
+});
 
 export default Products;
