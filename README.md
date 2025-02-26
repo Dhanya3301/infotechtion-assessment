@@ -1,50 +1,43 @@
-# React + TypeScript + Vite
+# Infotechtion Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Technical Implementation
+1.	Project Setup
+•	Initialize a Vite project with React & TypeScript:
+npm create vite@latest my-ecommerce-app --template react-ts
+cd my-ecommerce-app
+npm install
 
-Currently, two official plugins are available:
+•	Install Dependencies:
+npm install axios @tanstack/react-query tailwindcss lucide-react
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2.	Fetching Data from FakeStore API
+•	Use Axios and React Query for efficient data fetching & caching.
+•	API Endpoint: https://fakestoreapi.com/products?limit=15
+•	Implement a fetchProducts function inside App.tsx:
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
-## Expanding the ESLint configuration
+const fetchProducts = async () => {
+const { data } = await axios.get("https://fakestoreapi.com/products?limit=10");
+  return data;
+};
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+const { data: products, isLoading, error } = useQuery<ProductDataType[]>({
+  	queryKey: ["products"],
+  	queryFn: fetchProducts,
+});
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+3.	Create Components
+•	Hero.tsx: Displays the hero banner.
+•	Products.tsx: Receives productsData as props & applies sorting, filtering, and search on the products.
+•	ProductCard.tsx: Displays an Individual Product.
+4.	Handling State & User Interactions
+•	Implemented search, category filter, and sorting in Products.tsx using useState.
+5.	Responsive Design
+•	The website is built using TailwindCSS framework with a Mobile first design to ensure responsiveness, especially on mobile devices.
+6.	Layout Adjustments
+•	CSS grid layout module is used to adjust product listing layout on different devices.
+•	Media queries with TainwindCSS are used to ensure responsiveness in the layout.
+7.	Performance Optimization
+•	Re-rendering: The Product.tsx Component containing the Product listing, is wrapped in React.memo to implement component memoization. Memoization prevents component from re-rendering unless props change. 
+•	Image optimization: lazy loading is used to optimize image rendering. 
